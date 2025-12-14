@@ -1,9 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function Login() {
+// Componente interno que usa useSearchParams
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -14,6 +15,9 @@ export default function Login() {
   useEffect(() => {
     if (searchParams.get('registered') === 'true') {
       setSuccess('Conta criada com sucesso! Faça login para continuar.');
+    }
+    if (searchParams.get('redirect')) {
+      setSuccess('Você precisa fazer login para acessar esta página.');
     }
   }, [searchParams]);
 
@@ -36,10 +40,10 @@ export default function Login() {
         throw new Error(data.error || 'Erro ao fazer login');
       }
 
-      // ✅ Aguardar cookie ser definido
+      // Aguardar cookie ser definido
       await new Promise(resolve => setTimeout(resolve, 100));
 
-      // ✅ Redirecionar para URL original ou dashboard
+      // Redirecionar para URL original ou dashboard
       const redirectTo = searchParams.get('redirect') || '/dashboard';
       window.location.href = redirectTo;
       
@@ -53,14 +57,6 @@ export default function Login() {
     <div className="max-w-md mx-auto">
       <div className="bg-white rounded-lg shadow-lg p-8">
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Login</h1>
-        
-        {searchParams.get('redirect') && (
-          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded mb-4">
-            <p className="text-sm">
-              ℹ️ Você precisa fazer login para acessar esta página.
-            </p>
-          </div>
-        )}
         
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -118,5 +114,27 @@ export default function Login() {
         </p>
       </div>
     </div>
+  );
+}
+
+// Componente principal com Suspense
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="max-w-md mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-32 mx-auto mb-6"></div>
+            <div className="space-y-4">
+              <div className="h-10 bg-gray-200 rounded"></div>
+              <div className="h-10 bg-gray-200 rounded"></div>
+              <div className="h-10 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
