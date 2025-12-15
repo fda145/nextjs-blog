@@ -3,7 +3,6 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-// Componente interno que usa useSearchParams
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
