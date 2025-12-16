@@ -202,6 +202,13 @@ export default function Header() {
               {/* Autenticação Mobile */}
               {isAuthenticated ? (
                 <>
+                  <Link
+                    href="/admin/contacts"
+                    onClick={closeMenu}
+                    className={`px-4 py-3 hover:bg-white/10 transition border-b border-white/10 ${pathname.startsWith('/contacts') ? 'bg-white/20' : ''}`}
+                  >
+                    📬 Contatos
+                  </Link>
                   <Link 
                     href="/dashboard" 
                     onClick={closeMenu}
