@@ -47,10 +47,11 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-bold mb-3">Contato</h3>
           <p className="text-sm text-gray-400 mb-3">
-            contato@meublog.com
+            flavio.agapito@al.infnet.edu.br
           </p>
 
-          <ul className="flex gap-4 text-sm text-gray-400">
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
+          
             <li>
               <a
                 href="https://twitter.com"
@@ -81,7 +82,8 @@ export default function Footer() {
                 LinkedIn
               </a>
             </li>
-          </ul>
+          
+          </div>
         </div>
       </div>
 
