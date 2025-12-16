@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import Article from '@/components/Article';
 import ContactForm from '@/components/ContactForm';
-import clientPromise from '@/lib/mongodb';
 
+// TEMPORÁRIO: Posts de exemplo até resolver MongoDB
 async function getRecentPosts() {
+  // Tentar buscar do MongoDB
   try {
+    const clientPromise = (await import('@/lib/mongodb')).default;
     const client = await clientPromise;
     const db = client.db('blog');
     
@@ -14,24 +16,22 @@ async function getRecentPosts() {
       .limit(3)
       .toArray();
 
-    // Se não tiver posts, retornar array vazio
-    if (!posts || posts.length === 0) {
-      return [];
+    if (posts && posts.length > 0) {
+      return posts.map(post => ({
+        id: post._id.toString(),
+        title: post.title,
+        excerpt: post.excerpt,
+        slug: post.slug,
+        date: post.createdAt,
+        category: post.category,
+      }));
     }
-
-    // Converter para formato esperado
-    return posts.map(post => ({
-      id: post._id.toString(),
-      title: post.title,
-      excerpt: post.excerpt,
-      slug: post.slug,
-      date: post.createdAt,
-      category: post.category,
-    }));
   } catch (error) {
-    console.error('Erro ao buscar posts:', error);
-    return [];
+    console.error('MongoDB error:', error);
   }
+
+  // FALLBACK: Se não tiver posts no banco, mostrar mensagem
+  return [];
 }
 
 export default async function Home() {
@@ -39,7 +39,6 @@ export default async function Home() {
 
   return (
     <div className="space-y-12">
-      {/* SEÇÃO HERO */}
       <section className="text-center py-12 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg shadow-xl">
         <h1 className="text-5xl font-bold mb-4">Bem-vindo ao MeuBlog</h1>
         <p className="text-xl mb-8">Conteúdo de qualidade sobre desenvolvimento web e tecnologia</p>
@@ -53,37 +52,26 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE POSTS RECENTES */}
       <section>
         <h2 className="text-3xl font-bold mb-6 text-gray-800">Posts Recentes</h2>
         
         {posts.length === 0 ? (
-          // Se não tiver posts, mostrar mensagem
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
             <div className="text-6xl mb-4">📝</div>
             <h3 className="text-2xl font-bold text-gray-800 mb-2">
-              Nenhum post publicado ainda
+              Nenhum post no banco de dados
             </h3>
             <p className="text-gray-600 mb-6">
-              Seja o primeiro a compartilhar conhecimento!
+              Crie seus primeiros posts para começar!
             </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <Link 
-                href="/login" 
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
-              >
-                Fazer Login
-              </Link>
-              <Link 
-                href="/register" 
-                className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition font-semibold"
-              >
-                Criar Conta
-              </Link>
-            </div>
+            <Link 
+              href="/posts/new" 
+              className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
+            >
+              Criar Primeiro Post
+            </Link>
           </div>
         ) : (
-          // Se tiver posts, mostrar grid
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map(post => (
@@ -99,7 +87,6 @@ export default async function Home() {
         )}
       </section>
 
-      {/* SEÇÃO DE RECURSOS */}
       <section className="bg-gray-100 rounded-lg p-8">
         <h2 className="text-3xl font-bold mb-4 text-center text-gray-800">Recursos do Blog</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
@@ -121,7 +108,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* SEÇÃO DE CONTATO */}
       <section>
         <ContactForm />
       </section>

@@ -6,7 +6,7 @@ async function getRecentPosts() {
   return [
     {
       id: '1',
-      title: 'Introdução ao Next.js 14',
+      title: 'Introducao nextjs 14',
       excerpt:
         'Descubra os recursos mais recentes do Next.js 14 e como eles podem melhorar suas aplicações web.',
       slug: 'introducao-nextjs-14',
@@ -24,7 +24,7 @@ async function getRecentPosts() {
     },
     {
       id: '3',
-      title: 'Autenticação Segura com Firebase',
+      title: 'Autenticacao segura firebase',
       excerpt:
         'Aprenda a implementar autenticação segura em suas aplicações usando Firebase Authentication.',
       slug: 'autenticacao-segura-firebase',
