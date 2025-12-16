@@ -112,6 +112,56 @@ Uso de Server Functions substituindo `getServerSideProps`.
 
 ---
 
+## 📥 Como Baixar o Projeto
+
+```bash
+git clone https://github.com/fda145/nextjs-blog
+cd nextjs-blog
+```
+
+---
+
+## 📦 Instalação
+
+```bash
+npm install
+```
+
+---
+
+## 🔑 Variáveis de Ambiente
+
+Crie o arquivo `.env.local`:
+
+```env
+# Firebase
+NEXT_PUBLIC_FIREBASE_API_KEY=sua_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=seu_auth_domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=seu_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=seu_storage_bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=seu_app_id
+
+# MongoDB
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/blog
+
+# JWT
+JWT_SECRET=sua_chave_super_segura
+
+# Next.js
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+---
+
+## ▶️ Rodar o Projeto
+
+```bash
+npm run dev
+```
+
+---
+
 ## 🎯 Conclusão
 
 Projeto Full Stack completo, moderno e escalável, pronto para evolução futura.
