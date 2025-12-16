@@ -69,31 +69,35 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* POSTS RECENTES */}
-      <section className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold">Posts Recentes</h2>
-          <Link
-            href="/posts"
-            className="text-blue-600 font-medium hover:underline"
-          >
-            Ver todos →
-          </Link>
-        </div>
+ {/* POSTS RECENTES */}
+<section className="max-w-6xl mx-auto px-6">
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <h2 className="text-3xl font-bold">Posts Recentes</h2>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <Article
-              key={post.id}
-              title={post.title}
-              excerpt={post.excerpt}
-              slug={post.slug}
-              date={post.date}
-              category={post.category}
-            />
-          ))}
-        </div>
-      </section>
+    <div className="flex gap-4">
+      <Link
+        href="/posts/graphql"
+        className="text-indigo-600 font-medium hover:underline"
+      >
+        Ver Todos (GraphQL) →
+      </Link>
+    </div>
+  </div>
+
+  <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {posts.map((post) => (
+      <Article
+        key={post.id}
+        title={post.title}
+        excerpt={post.excerpt}
+        slug={post.slug}
+        date={post.date}
+        category={post.category}
+      />
+    ))}
+  </div>
+</section>
+
 
       {/* RECURSOS */}
       <section className="bg-gray-50 py-20">
